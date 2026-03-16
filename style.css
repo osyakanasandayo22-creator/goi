@@ -70,8 +70,9 @@ body {
 .app__main {
   flex: 1;
   display: flex;
-  justify-content: center;
-  padding: 3rem 1rem 2rem;
+  justify-content: stretch;
+  align-items: stretch;
+  padding: 1.5rem;
 }
 
 .app__footer {
@@ -83,7 +84,7 @@ body {
 
 .card {
   width: 100%;
-  max-width: 860px;
+  max-width: none;
   border-radius: 24px;
   border: 1px solid #e0e3e7;
   box-shadow:
@@ -97,12 +98,25 @@ body {
 }
 
 .card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  column-gap: 2rem;
+  row-gap: 0.9rem;
   border-bottom: 1px solid #e0e3e7;
   padding-bottom: 1.25rem;
   margin-bottom: 0.5rem;
+}
+
+.field--topic,
+.field--passage,
+.field--answer,
+.actions {
+  grid-column: 2;
+}
+
+.topic-category-groups,
+.topic-actions {
+  grid-column: 1;
 }
 
 .field {
@@ -407,4 +421,33 @@ input[readonly] {
 .history__item-actions .btn {
   font-size: 0.75rem;
   padding: 0.25rem 0.6rem;
+}
+
+/* レスポンシブ対応（タブレット以下は縦並び） */
+@media (max-width: 900px) {
+  .app__main {
+    padding: 1rem;
+  }
+
+  .card {
+    border-radius: 0;
+    box-shadow: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .field--topic,
+  .field--passage,
+  .field--answer,
+  .actions,
+  .topic-category-groups,
+  .topic-actions {
+    grid-column: auto;
+  }
 }
