@@ -20,6 +20,7 @@ const passageField = document.getElementById("passageField");
 const passageInput = document.getElementById("passageInput");
 const passageDisplay = document.getElementById("passageDisplay");
 const answerInput = document.getElementById("answerInput");
+const lengthConstraintCheckbox = document.getElementById("lengthConstraintCheckbox");
 
 const scoreArea = document.getElementById("scoreArea");
 const criteriaArea = document.getElementById("criteriaArea");
@@ -465,9 +466,37 @@ function renderSubcategories() {
   }
 }
 
+function extractLengthConstraintPhrase(topic) {
+  if (!topic) return "";
+  const patterns = [
+    /(\d+\s*字\s*(?:以内|以下))/,
+    /(\d+\s*字\s*程度)/,
+    /(\d+\s*〜\s*\d+\s*字)/,
+    /(\d+\s*字\s*で)/,
+  ];
+
+  for (const re of patterns) {
+    const m = topic.match(re);
+    if (m && m[1]) return m[1].replace(/\s+/g, "");
+  }
+  return "";
+}
+
 function buildPrompt(topic, answer) {
   const passage = passageInput ? passageInput.value.trim() : "";
   const passageBlock = passage ? "\n【本文】\n" + passage + "\n" : "";
+
+   let lengthConstraintInstruction = "";
+   if (lengthConstraintCheckbox && lengthConstraintCheckbox.checked) {
+     const phrase = extractLengthConstraintPhrase(topic);
+     if (phrase) {
+       lengthConstraintInstruction =
+         `・【お題】に含まれる「${phrase}」などの字数指定がある場合は、「書き換え例」と「模範解答」の長さもその字数条件にできるだけ従ってください。\n`;
+     } else {
+       lengthConstraintInstruction =
+         `・【お題】に「◯字以内」「◯字以下」「◯字程度」などの字数指定が含まれている場合は、「書き換え例」と「模範解答」の長さもその字数条件にできるだけ従ってください。\n`;
+     }
+   }
 
   return (
     `あなたは日本語教師・添削者です。\n\n` +
@@ -485,6 +514,7 @@ function buildPrompt(topic, answer) {
     `  - 何が足りないか／誤っているか\n` +
     `  - その要素の「満点になる」書き換え例（日本語）\n` +
     `  を示してください。\n` +
+    lengthConstraintInstruction +
     `・合計点（10点満点）も計算してください。\n` +
     `・最後に、全体としての模範解答（あなたが考えるベストな説明）を書いてください。\n` +
     `・「書き換え例」と「模範解答」の文章は、国語の文章として読みやすいように、構造的に必要な箇所（段落の切れ目や場面の切り替わりなど）だけで改行してください。\n` +
