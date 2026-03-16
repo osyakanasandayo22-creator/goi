@@ -516,11 +516,6 @@ runButton.addEventListener("click", async () => {
   const topic = topicInput.value.trim();
   const answer = answerInput.value.trim();
 
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-    alert("先に script.js 内の GEMINI_API_KEY を自分の API キーに書き換えてください。");
-    return;
-  }
-
   if (!topic || !answer) {
     alert("お題とあなたの説明を入力してください。");
     return;
