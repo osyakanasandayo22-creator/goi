@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>説明添削 & 採点アプリ (Gemini)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <div class="app__header-left">
+        <div class="logo">G</div>
+        <div>
+          <h1 class="app__title">説明 添削</h1>
+          <p class="app__subtitle">お題に対するあなたの説明を、Gemini が添削・採点します。</p>
+        </div>
+      </div>
+      <div class="app__header-right">
+        <span id="userDisplay" class="auth-user">未ログイン</span>
+        <button id="googleLoginButton" class="btn btn--secondary btn--small">Googleでログイン</button>
+        <button id="emailLoginButton" class="btn btn--secondary btn--small">メールでログイン</button>
+        <button id="logoutButton" class="btn btn--secondary btn--small" style="display: none;">ログアウト</button>
+      </div>
+    </header>
+
+    <main class="app__main">
+      <section class="card card--center">
+        <div class="card__body">
+          <label class="field">
+            <span class="field__label">お題</span>
+            <textarea
+              id="topicInput"
+              class="field__textarea field__textarea--topic"
+              rows="2"
+              placeholder="例：『相対性理論』を高校生にもわかるように説明せよ"
+            ></textarea>
+          </label>
+
+          <label class="field" id="passageField">
+            <span class="field__label">本文（ある場合）</span>
+            <textarea
+              id="passageInput"
+              class="field__textarea"
+              rows="4"
+              placeholder="お題に対応する本文がある場合は、ここに表示・入力されます"
+            ></textarea>
+          </label>
+
+          <div class="topic-category-groups">
+            <div class="topic-category-row">
+              <span class="topic-category-label">文章タイプ</span>
+              <div class="topic-categories" id="topicMainCategoryList">
+                <button class="topic-category topic-category--active" data-main="logic">
+                  論理的な文章
+                </button>
+                <button class="topic-category" data-main="literature">
+                  文学的な文章
+                </button>
+                <button class="topic-category" data-main="vocabulary">
+                  語彙の意味
+                </button>
+                <button class="topic-category" data-main="trivia">
+                  雑学
+                </button>
+                <button class="topic-category" data-main="summary">
+                  要約
+                </button>
+              </div>
+            </div>
+            <div class="topic-category-row topic-category-row--sub" id="topicSubcategoryRow">
+              <span class="topic-category-label">観点</span>
+              <div class="topic-subcategories" id="topicSubcategoryList">
+                <!-- JS で現在の文章タイプに応じた細かい項目ボタンを生成 -->
+              </div>
+            </div>
+          </div>
+
+          <div class="topic-actions">
+            <button id="manualModeButton" class="btn btn--secondary btn--toggle-active">自分でお題を作る</button>
+            <button id="randomTopicButton" class="btn btn--secondary">AIにお題を決めてもらう</button>
+            <span class="topic-actions__hint">※ AIで作ったお題・本文は編集できません</span>
+          </div>
+
+          <label class="field">
+            <span class="field__label">あなたの説明</span>
+            <textarea
+              id="answerInput"
+              class="field__textarea"
+              rows="6"
+              placeholder="ここに自分の説明文を書いてください"
+            ></textarea>
+          </label>
+
+          <div class="actions">
+            <button id="runButton" class="btn btn--primary">Gemini に添削してもらう</button>
+            <span id="statusText" class="status-text"></span>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="result__score">
+            <div class="result__score-label">スコア</div>
+            <div id="scoreArea" class="result__score-value">− / 10</div>
+          </div>
+
+          <div class="result__block">
+            <h2 class="result__title">全体コメント</h2>
+            <div id="feedbackArea" class="result__body"></div>
+          </div>
+
+          <div class="result__block">
+            <h2 class="result__title">要素ごとの評価</h2>
+            <div id="criteriaArea" class="result__body"></div>
+          </div>
+
+          <div class="result__block">
+            <h2 class="result__title">書き換え例</h2>
+            <div id="rewriteArea" class="result__body"></div>
+          </div>
+
+          <div class="result__block">
+            <h2 class="result__title">模範解答（AI）</h2>
+            <div id="modelAnswerArea" class="result__body"></div>
+          </div>
+        </div>
+
+        <div class="history" id="historyArea">
+          <h2 class="history__title">過去の語彙トレ</h2>
+          <div id="historyEmpty" class="history__empty">ログインすると、ここに履歴が表示されます。</div>
+          <div id="historyList" class="history__list"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app__footer">
+      <small>Powered by Gemini API（サンプル実装）</small>
+    </footer>
+  </div>
+
+  <!-- Firebase SDK（compat 版） -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
