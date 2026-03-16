@@ -1,5 +1,5 @@
 // ★ 必ず自分の API キーをここに書き換えてください
-const GEMINI_API_KEY = "AIzaSyBtYnWwXRPRvC7MNOwlHrkj6bkyCLZQ7l4"; // ← ここを書き換え
+const GEMINI_API_KEY = ""; // ← ここを書き換え
 
 // モデル名（サイトの新しいサンプルに合わせる）
 // 404 回避のため、"gemini-3-flash-preview" を直接指定
