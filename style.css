@@ -99,7 +99,7 @@ body {
 
 .card__body {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
   row-gap: 0.9rem;
   border-bottom: 1px solid #e0e3e7;
@@ -108,14 +108,14 @@ body {
 }
 
 .field--topic,
-.field--passage,
-.field--answer,
-.actions {
+.field--passage {
   grid-column: 2;
 }
 
 .topic-category-groups,
-.topic-actions {
+.topic-actions,
+.field--answer,
+.actions {
   grid-column: 1;
 }
 
