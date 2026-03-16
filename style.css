@@ -217,6 +217,12 @@ body {
 
 /* 本文（国語の文章）は縦書き表示にする */
 .field--passage .field__textarea {
+  /* 入力用（手動入力）のときは通常テキストエリアとして使うので縦書き指定はしない */
+}
+
+/* 表示専用の本文ブロック（縦書き） */
+.passage-display {
+  display: none;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   white-space: pre-wrap;
@@ -226,8 +232,12 @@ body {
   height: 26rem;
   /* 横方向は数文字ぶんだけ見える程度に固定 */
   width: 6rem;
-  resize: none;
   padding: 1.1rem 0.9rem;
+  border-radius: 16px;
+  border: 1px solid #d2d6dc;
+  background: #fff;
+  color: #202124;
+  overflow-y: auto;
 }
 
 .field--passage .field__label {
