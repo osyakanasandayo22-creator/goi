@@ -691,11 +691,6 @@ if (topicSubcategoryList) {
 
 // お題を AI にランダム生成してもらう
 randomTopicButton.addEventListener("click", async () => {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-    alert("先に script.js 内の GEMINI_API_KEY を自分の API キーに書き換えてください。");
-    return;
-  }
-
   setLoading(true, "お題を生成中...");
 
   try {
