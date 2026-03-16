@@ -2,9 +2,10 @@
 //   ここではもう使いません（互換のため空文字だけ定義）。
 const GEMINI_API_KEY = "";
 
-// モデル名（サイトの新しいサンプルに合わせる）
-// 404 回避のため、"gemini-3-flash-preview" を直接指定
-const MODEL_NAME = "gemini-3-flash-preview";
+// 使用するモデル名
+// 通常時は Gemini 3 Flash を使い、制限に達したら Gemini 3.1 Flash Lite に自動フォールバックする
+const PRIMARY_MODEL_NAME = "gemini-3-flash-preview";
+const FALLBACK_MODEL_NAME = "gemini-3.1-flash-lite";
 
 const runButton = document.getElementById("runButton");
 const manualModeButton = document.getElementById("manualModeButton");
@@ -508,15 +509,27 @@ function buildPrompt(topic, answer) {
   ).trim();
 }
 
-async function callGemini(prompt) {
+async function callGemini(prompt, preferredModelName = PRIMARY_MODEL_NAME) {
   // 以降はフロントから自前の API 経由で Gemini を呼び出します。
-  const res = await fetch("/api/gemini", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ prompt, modelName: MODEL_NAME }),
-  });
+  async function requestOnce(modelName) {
+    const res = await fetch("/api/gemini", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt, modelName }),
+    });
+
+    return res;
+  }
+
+  // まずは優先モデルで試す
+  let res = await requestOnce(preferredModelName);
+
+  // レート制限などで 429 が返ってきた場合は、フォールバックモデルで一度だけリトライ
+  if (res.status === 429 && preferredModelName !== FALLBACK_MODEL_NAME) {
+    res = await requestOnce(FALLBACK_MODEL_NAME);
+  }
 
   if (!res.ok) {
     throw new Error(`HTTP error ${res.status}`);
