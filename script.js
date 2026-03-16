@@ -34,6 +34,7 @@ const historyList = document.getElementById("historyList");
 const historyEmpty = document.getElementById("historyEmpty");
 const historySidebar = document.getElementById("historySidebar");
 const sidebarToggleButton = document.getElementById("sidebarToggleButton");
+const newNoteButton = document.getElementById("newNoteButton");
 const appRoot = document.querySelector(".app");
 
 // お題ジャンル（メイン＋サブ）の定義
@@ -380,6 +381,17 @@ async function loadSessionDetail(docId) {
       answerInput.value = data.answer || "";
       answerInput.readOnly = true;
       autoResizeTextarea(answerInput);
+    }
+
+    // 過去の語彙トレ閲覧中はボタン類を無効化して「押せなさそう」にする
+    if (runButton) {
+      runButton.disabled = true;
+    }
+    if (manualModeButton) {
+      manualModeButton.disabled = true;
+    }
+    if (randomTopicButton) {
+      randomTopicButton.disabled = true;
     }
 
     const result = {
@@ -866,5 +878,58 @@ if (appRoot) {
 if (sidebarToggleButton && appRoot) {
   sidebarToggleButton.addEventListener("click", () => {
     appRoot.classList.toggle("app--sidebar-expanded");
+  });
+}
+
+// サイドバー内「新規ノートを作成」ボタン
+if (newNoteButton) {
+  newNoteButton.addEventListener("click", () => {
+    // 入力欄を初期化して編集可能に戻す
+    if (topicInput) {
+      topicInput.readOnly = false;
+      topicInput.value = "";
+      autoResizeTextarea(topicInput);
+    }
+    if (passageInput) {
+      passageInput.readOnly = false;
+      passageInput.value = "";
+      autoResizeTextarea(passageInput);
+    }
+    if (answerInput) {
+      answerInput.readOnly = false;
+      answerInput.value = "";
+      autoResizeTextarea(answerInput);
+    }
+
+    // 結果表示もクリア
+    if (scoreArea) {
+      scoreArea.textContent = "− / 10";
+    }
+    if (criteriaArea) {
+      criteriaArea.innerHTML = "";
+    }
+    if (feedbackArea) {
+      feedbackArea.textContent = "";
+    }
+    if (rewriteArea) {
+      rewriteArea.innerHTML = "";
+    }
+    if (modelAnswerArea) {
+      modelAnswerArea.textContent = "";
+    }
+
+    // ボタンを再度有効化し、モードを手動に戻す
+    if (runButton) {
+      runButton.disabled = false;
+    }
+    if (manualModeButton) {
+      manualModeButton.disabled = false;
+    }
+    if (randomTopicButton) {
+      randomTopicButton.disabled = false;
+    }
+
+    setTopicMode("manual");
+    updateRunButtonState();
   });
 }

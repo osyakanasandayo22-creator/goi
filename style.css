@@ -85,6 +85,12 @@ body {
   flex-direction: column;
 }
 
+.history__new-note {
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
 .card {
   width: 100%;
   max-width: none;
@@ -470,6 +476,12 @@ input[readonly] {
 .history__item-actions .btn {
   font-size: 0.75rem;
   padding: 0.25rem 0.6rem;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
 }
 
 /* サイドバー拡張時のスタイル */
