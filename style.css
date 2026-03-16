@@ -222,6 +222,11 @@ body {
   white-space: pre-wrap;
   line-height: 1.8;
   letter-spacing: 0.08em;
+  /* おおよそ「長く伸びた影で地面を突き刺していた。風が冷たさを増」程度が収まる縦の長さに固定 */
+  height: 26rem;
+  /* 横方向は数文字ぶんだけ見える程度に固定 */
+  width: 6rem;
+  resize: none;
   padding: 1.1rem 0.9rem;
 }
 

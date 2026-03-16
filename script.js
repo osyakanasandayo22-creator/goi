@@ -173,6 +173,8 @@ function setLoading(loading, message = "") {
 
 function autoResizeTextarea(el) {
   if (!el) return;
+  // 本文用の縦書きテキストエリアは固定サイズにしたいのでオートリサイズしない
+  if (el === passageInput) return;
   el.style.height = "auto";
   el.style.height = el.scrollHeight + "px";
 }
