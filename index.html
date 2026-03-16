@@ -68,6 +68,14 @@
                 <div class="topic-subcategories" id="topicSubcategoryList">
                   <!-- JS で現在の文章タイプに応じた細かい項目ボタンを生成 -->
                 </div>
+                <label
+                  id="lengthConstraintContainer"
+                  class="field field--inline"
+                  style="margin-left: 8px; font-size: 0.9rem; display: none;"
+                >
+                  <input type="checkbox" id="lengthConstraintCheckbox" />
+                  <span>このお題に字数指定を含める</span>
+                </label>
               </div>
             </div>
 
@@ -90,10 +98,6 @@
             <div class="actions">
               <button id="runButton" class="btn btn--primary">Gemini に添削してもらう</button>
               <span id="statusText" class="status-text"></span>
-              <label class="field field--inline" style="margin-left: 8px; font-size: 0.9rem;">
-                <input type="checkbox" id="lengthConstraintCheckbox" />
-                <span>お題の字数指定をAIの模範解答にも適用</span>
-              </label>
             </div>
           </div>
 

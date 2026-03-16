@@ -14,13 +14,14 @@ const statusText = document.getElementById("statusText");
 const topicMainCategoryList = document.getElementById("topicMainCategoryList");
 const topicSubcategoryRow = document.getElementById("topicSubcategoryRow");
 const topicSubcategoryList = document.getElementById("topicSubcategoryList");
+const lengthConstraintCheckbox = document.getElementById("lengthConstraintCheckbox");
+const lengthConstraintContainer = document.getElementById("lengthConstraintContainer");
 
 const topicInput = document.getElementById("topicInput");
 const passageField = document.getElementById("passageField");
 const passageInput = document.getElementById("passageInput");
 const passageDisplay = document.getElementById("passageDisplay");
 const answerInput = document.getElementById("answerInput");
-const lengthConstraintCheckbox = document.getElementById("lengthConstraintCheckbox");
 
 const scoreArea = document.getElementById("scoreArea");
 const criteriaArea = document.getElementById("criteriaArea");
@@ -442,12 +443,21 @@ function renderSubcategories() {
     if (topicSubcategoryRow) {
       topicSubcategoryRow.style.display = "none";
     }
-    return;
+  } else if (topicSubcategoryRow) {
+    // サブカテゴリがある場合は行を表示
+    topicSubcategoryRow.style.display = "flex";
   }
 
-  // サブカテゴリがある場合は行を表示
-  if (topicSubcategoryRow) {
-    topicSubcategoryRow.style.display = "flex";
+  // 字数指定チェックボックスの表示制御（論理・文学・要約のみ）
+  if (lengthConstraintContainer) {
+    const shouldShowLength =
+      currentMainCategory === "logic" ||
+      currentMainCategory === "literature" ||
+      currentMainCategory === "summary";
+    lengthConstraintContainer.style.display = shouldShowLength ? "inline-flex" : "none";
+    if (!shouldShowLength) {
+      lengthConstraintCheckbox.checked = false;
+    }
   }
 
   // 現在のサブカテゴリが無効なら、先頭を選ぶ
@@ -858,6 +868,21 @@ randomTopicButton.addEventListener("click", async () => {
         "\n";
     }
 
+    let lengthConstraintBlock = "";
+    if (
+      lengthConstraintCheckbox &&
+      lengthConstraintCheckbox.checked &&
+      (currentMainCategory === "logic" ||
+        currentMainCategory === "literature" ||
+        currentMainCategory === "summary")
+    ) {
+      lengthConstraintBlock =
+        "\n【字数指定】\n" +
+        "このお題文には、「◯字以内で説明せよ」「◯字程度で説明せよ」「◯〜◯字で説明せよ」などのように、受験者の説明文の長さに関する日本語の指示を必ず 1 つ含めてください。\n" +
+        "どのくらいの長さにするか（例：30字以内、25字程度、50〜80字など）は、文章タイプと観点にふさわしい範囲をあなたが自由に決めてください。\n" +
+        "その字数指定は、このアプリでの受験者の解答や、後で生成される書き換え例・模範解答の長さにも適用されることを想定してください。\n";
+    }
+
     const prompt = `
 あなたは日本語教師です。
 以下の条件に合った、説明練習用のお題を 1 つだけ考えてください。
@@ -865,6 +890,7 @@ randomTopicButton.addEventListener("click", async () => {
 【文章のタイプ】${main.label}
 【タイプの説明】${main.description}
 ${subBlock}
+${lengthConstraintBlock}
 
 ${allowPassage ? "必要であれば、短い「本文」も用意してください（特に要約や読解問題の場合など）。\n本文は国語の文章として自然な段落構成になるようにし、段落が変わるところなど構造的に必要な箇所だけで改行してください。文ごとに機械的に改行したり、不要なスペースや改行は入れないでください。必要なら段落の先頭に全角スペースを 1 つ入れてもかまいません。\n" : "今回は本文は書かず、お題の文だけを作ってください（説明の答えになる具体的な知識までは書かないようにしてください）。\n"}
 
