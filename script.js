@@ -142,6 +142,7 @@ let currentMainCategory = "logic";
 let currentSubCategory = "claim";
 let currentTopicMode = "manual"; // "manual" | "ai"
 let currentUser = null;
+let isLoadingFromHistory = false;
 
 // Firebase 初期化
 const firebaseConfig = {
@@ -352,6 +353,8 @@ async function loadSessionDetail(docId) {
   if (!currentUser || !db) return;
 
   try {
+    isLoadingFromHistory = true;
+
     const snap = await db
       .collection("users")
       .doc(currentUser.uid)
@@ -388,6 +391,8 @@ async function loadSessionDetail(docId) {
   } catch (e) {
     console.error(e);
     alert("履歴の読み込み中にエラーが発生しました。");
+  } finally {
+    isLoadingFromHistory = false;
   }
 }
 
@@ -561,7 +566,7 @@ function renderResult(result, rawText) {
   modelAnswerArea.textContent = result.modelAnswer ?? "";
 
   // ログイン中なら結果を自動保存
-  if (currentUser && db) {
+  if (currentUser && db && !isLoadingFromHistory) {
     saveSession(result);
   }
 }
