@@ -492,6 +492,7 @@ input[readonly] {
 }
 
 /* デフォルト（細い状態）ではテキストを隠す */
+.history__new-note,
 .history__title,
 .history__empty,
 .history__list {
@@ -500,6 +501,7 @@ input[readonly] {
   transition: opacity 0.15s ease-out;
 }
 
+.app--sidebar-expanded .history__new-note,
 .app--sidebar-expanded .history__title,
 .app--sidebar-expanded .history__empty,
 .app--sidebar-expanded .history__list {
