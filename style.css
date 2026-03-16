@@ -230,8 +230,8 @@ body {
   letter-spacing: 0.08em;
   /* おおよそ「長く伸びた影で地面を突き刺していた。風が冷たさを増」程度が収まる縦の長さに固定 */
   height: 26rem;
-  /* 横方向は数文字ぶんだけ見える程度に固定 */
-  width: 6rem;
+  /* 横幅はお題テキストエリアと同じだけ確保 */
+  width: 100%;
   padding: 1.1rem 0.9rem;
   border-radius: 16px;
   border: 1px solid #d2d6dc;
