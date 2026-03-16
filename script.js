@@ -368,10 +368,12 @@ async function loadSessionDetail(docId) {
 
     if (topicInput) {
       topicInput.value = data.topic || "";
+      topicInput.readOnly = true;
       autoResizeTextarea(topicInput);
     }
     if (passageInput) {
       passageInput.value = data.passage || "";
+      passageInput.readOnly = true;
       autoResizeTextarea(passageInput);
     }
     if (answerInput) {
