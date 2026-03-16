@@ -312,7 +312,7 @@ function renderHistory(docs) {
       <div class="history__item-actions">
         <button class="btn btn--secondary btn--small" data-id="${
           doc.id
-        }">削除</button>
+        }">削</button>
       </div>
     `;
 
@@ -339,6 +339,7 @@ function renderHistory(docs) {
     if (mainArea) {
       mainArea.addEventListener("click", () => {
         loadSessionDetail(doc.id);
+        closeSidebar();
       });
     }
 
@@ -1039,6 +1040,12 @@ function toggleSidebarExpanded() {
   }
 }
 
+function closeSidebar() {
+  if (appRoot) {
+    appRoot.classList.remove("app--sidebar-expanded");
+  }
+}
+
 if (sidebarToggleButton && appRoot) {
   sidebarToggleButton.addEventListener("click", toggleSidebarExpanded);
 }
@@ -1102,5 +1109,8 @@ if (newNoteButton) {
 
     setTopicMode("manual");
     updateRunButtonState();
+
+    // サイドバーから押された場合は自動で閉じる
+    closeSidebar();
   });
 }
