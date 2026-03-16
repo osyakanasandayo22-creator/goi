@@ -83,6 +83,7 @@
               <button id="manualModeButton" class="btn btn--secondary btn--toggle-active">自分でお題を作る</button>
               <button id="randomTopicButton" class="btn btn--secondary">AIにお題を決めてもらう</button>
               <span class="topic-actions__hint">※ AIで作ったお題・本文は編集できません</span>
+              <span id="topicStatusText" class="status-text"></span>
             </div>
 
             <label class="field field--answer">
@@ -117,7 +118,7 @@
               <textarea
                 id="passageInput"
                 class="field__textarea"
-                rows="4"
+                rows="7"
                 placeholder="お題に対応する本文がある場合は、ここに表示・入力されます"
               ></textarea>
               <div id="passageDisplay" class="passage-display" aria-hidden="true"></div>
@@ -155,7 +156,11 @@
     </main>
 
     <footer class="app__footer">
-      <small>Powered by Gemini API（サンプル実装）</small>
+      <small>
+        Powered by Gemini API（サンプル実装）<br />
+        不適切・差別的な表現は入力しないでください。<br />
+        生成される内容はAIによる自動生成であり、不正確な情報を含む場合があります。必ず利用者自身で確認してください。
+      </small>
     </footer>
   </div>
 
