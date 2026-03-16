@@ -134,6 +134,10 @@ body {
   background: #e8eaed;
 }
 
+.sidebar-toggle--mobile {
+  display: none;
+}
+
 .card__body {
   display: grid;
   grid-template-columns: 1fr 1fr;
