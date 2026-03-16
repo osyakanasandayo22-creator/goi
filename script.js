@@ -39,6 +39,7 @@ const historyList = document.getElementById("historyList");
 const historyEmpty = document.getElementById("historyEmpty");
 const historySidebar = document.getElementById("historySidebar");
 const sidebarToggleButton = document.getElementById("sidebarToggleButton");
+const sidebarToggleButtonMobile = document.getElementById("sidebarToggleButtonMobile");
 const newNoteButton = document.getElementById("newNoteButton");
 const appRoot = document.querySelector(".app");
 
@@ -1027,15 +1028,23 @@ autoResizeTextarea(topicInput);
 autoResizeTextarea(passageInput);
 autoResizeTextarea(answerInput);
 
-// サイドバー開閉ボタン（PC向け）
+// サイドバー開閉ボタン（PC/スマホ共通）
 if (appRoot) {
   appRoot.classList.remove("app--sidebar-expanded");
 }
 
-if (sidebarToggleButton && appRoot) {
-  sidebarToggleButton.addEventListener("click", () => {
+function toggleSidebarExpanded() {
+  if (appRoot) {
     appRoot.classList.toggle("app--sidebar-expanded");
-  });
+  }
+}
+
+if (sidebarToggleButton && appRoot) {
+  sidebarToggleButton.addEventListener("click", toggleSidebarExpanded);
+}
+
+if (sidebarToggleButtonMobile && appRoot) {
+  sidebarToggleButtonMobile.addEventListener("click", toggleSidebarExpanded);
 }
 
 // サイドバー内「新規ノートを作成」ボタン
