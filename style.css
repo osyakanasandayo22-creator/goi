@@ -76,13 +76,14 @@ body {
 }
 
 .history-sidebar {
-  flex: 0 0 64px;
-  max-width: 64px;
+  flex: 0 0 48px;
+  max-width: 48px;
   background: #f8f9fa;
   border-right: 1px solid #e0e3e7;
-  padding: 1rem 0.4rem;
+  padding: 0.75rem 0.3rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .history__new-note {
@@ -125,7 +126,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: 1.1rem;
 }
 
@@ -492,9 +493,10 @@ input[readonly] {
 
 /* サイドバー拡張時のスタイル */
 .app--sidebar-expanded .history-sidebar {
-  flex: 0 0 280px;
-  max-width: 280px;
-  padding: 1rem 0.75rem;
+  flex: 0 0 240px;
+  max-width: 240px;
+  padding: 0.75rem 0.75rem;
+  align-items: stretch;
 }
 
 /* デフォルト（細い状態）ではテキストを隠す */
