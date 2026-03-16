@@ -5,7 +5,7 @@ const GEMINI_API_KEY = "";
 // 使用するモデル名
 // 通常時は Gemini 3 Flash を使い、制限に達したら Gemini 3.1 Flash Lite に自動フォールバックする
 const PRIMARY_MODEL_NAME = "gemini-3-flash-preview";
-const FALLBACK_MODEL_NAME = "gemini-3.1-flash-lite";
+const FALLBACK_MODEL_NAME = "gemini-3.1-flash-lite-preview";
 
 const runButton = document.getElementById("runButton");
 const manualModeButton = document.getElementById("manualModeButton");
