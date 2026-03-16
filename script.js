@@ -1,5 +1,6 @@
-// ★ 必ず自分の API キーをここに書き換えてください
-const GEMINI_API_KEY = ""; // ← ここを書き換え
+// ★ Gemini の API キーはフロントには置かず、Vercel のサーバー側環境変数（GEMINI_API_KEY）で管理します。
+//   ここではもう使いません（互換のため空文字だけ定義）。
+const GEMINI_API_KEY = "";
 
 // モデル名（サイトの新しいサンプルに合わせる）
 // 404 回避のため、"gemini-3-flash-preview" を直接指定
@@ -416,27 +417,13 @@ function buildPrompt(topic, answer) {
 }
 
 async function callGemini(prompt) {
-  // v1beta エンドポイント（AI Studio のサンプルと同じ形）
-  const url =
-    "https://generativelanguage.googleapis.com/v1beta/models/" +
-    encodeURIComponent(MODEL_NAME) +
-    ":generateContent?key=" +
-    encodeURIComponent(GEMINI_API_KEY);
-
-  const body = {
-    contents: [
-      {
-        parts: [{ text: prompt }],
-      },
-    ],
-  };
-
-  const res = await fetch(url, {
+  // 以降はフロントから自前の API 経由で Gemini を呼び出します。
+  const res = await fetch("/api/gemini", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ prompt, modelName: MODEL_NAME }),
   });
 
   if (!res.ok) {
@@ -444,10 +431,7 @@ async function callGemini(prompt) {
   }
 
   const data = await res.json();
-  const text =
-    data.candidates?.[0]?.content?.parts?.[0]?.text ??
-    data.candidates?.[0]?.content?.parts?.[0]?.inlineData ??
-    "";
+  const text = data.text || "";
 
   if (!text) {
     throw new Error("Gemini からテキストが返ってきませんでした。");
