@@ -75,11 +75,14 @@ body {
   padding: 1.5rem;
 }
 
-.app__footer {
-  padding: 0.75rem 1.5rem 1.25rem;
-  text-align: center;
-  color: #5f6368;
-  font-size: 0.8rem;
+.history-sidebar {
+  flex: 0 0 64px;
+  max-width: 64px;
+  background: #f8f9fa;
+  border-right: 1px solid #e0e3e7;
+  padding: 1rem 0.4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .card {
@@ -95,6 +98,33 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  flex: 1 1 auto;
+}
+
+.app__footer {
+  padding: 0.75rem 1.5rem 1.25rem;
+  text-align: center;
+  color: #5f6368;
+  font-size: 0.8rem;
+}
+
+/* サイドバー開閉ボタン */
+.sidebar-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.sidebar-toggle:hover {
+  background: #e8eaed;
 }
 
 .card__body {
@@ -388,7 +418,7 @@ input[readonly] {
 }
 
 .history {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .history__title {
@@ -424,6 +454,7 @@ input[readonly] {
 
 .history__item-main {
   flex: 1 1 auto;
+  cursor: pointer;
 }
 
 .history__item-title {
@@ -441,10 +472,37 @@ input[readonly] {
   padding: 0.25rem 0.6rem;
 }
 
+/* サイドバー拡張時のスタイル */
+.app--sidebar-expanded .history-sidebar {
+  flex: 0 0 280px;
+  max-width: 280px;
+  padding: 1rem 0.75rem;
+}
+
+/* デフォルト（細い状態）ではテキストを隠す */
+.history__title,
+.history__empty,
+.history__list {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-out;
+}
+
+.app--sidebar-expanded .history__title,
+.app--sidebar-expanded .history__empty,
+.app--sidebar-expanded .history__list {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* レスポンシブ対応（タブレット以下は縦並び） */
 @media (max-width: 900px) {
   .app__main {
     padding: 1rem;
+  }
+
+  .history-sidebar {
+    display: none;
   }
 
   .card {

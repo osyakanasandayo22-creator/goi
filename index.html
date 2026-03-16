@@ -10,6 +10,9 @@
   <div class="app">
     <header class="app__header">
       <div class="app__header-left">
+        <button id="sidebarToggleButton" class="sidebar-toggle" aria-label="過去の語彙トレ サイドバーの開閉">
+          ☰
+        </button>
         <div class="logo">G</div>
         <div>
           <h1 class="app__title">説明 添削</h1>
@@ -25,6 +28,14 @@
     </header>
 
     <main class="app__main">
+      <aside class="history-sidebar" id="historySidebar">
+        <div class="history" id="historyArea">
+          <h2 class="history__title">過去の語彙トレ</h2>
+          <div id="historyEmpty" class="history__empty">ログインすると、ここに履歴が表示されます。</div>
+          <div id="historyList" class="history__list"></div>
+        </div>
+      </aside>
+
       <section class="card card--center">
         <div class="card__body">
           <label class="field field--topic">
@@ -123,12 +134,6 @@
             <h2 class="result__title">模範解答（AI）</h2>
             <div id="modelAnswerArea" class="result__body"></div>
           </div>
-        </div>
-
-        <div class="history" id="historyArea">
-          <h2 class="history__title">過去の語彙トレ</h2>
-          <div id="historyEmpty" class="history__empty">ログインすると、ここに履歴が表示されます。</div>
-          <div id="historyList" class="history__list"></div>
         </div>
       </section>
     </main>

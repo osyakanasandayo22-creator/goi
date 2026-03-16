@@ -32,6 +32,9 @@ const emailLoginButton = document.getElementById("emailLoginButton");
 const logoutButton = document.getElementById("logoutButton");
 const historyList = document.getElementById("historyList");
 const historyEmpty = document.getElementById("historyEmpty");
+const historySidebar = document.getElementById("historySidebar");
+const sidebarToggleButton = document.getElementById("sidebarToggleButton");
+const appRoot = document.querySelector(".app");
 
 // お題ジャンル（メイン＋サブ）の定義
 const TOPIC_STRUCTURE = {
@@ -283,6 +286,13 @@ function renderHistory(docs) {
       }
     });
 
+    const mainArea = item.querySelector(".history__item-main");
+    if (mainArea) {
+      mainArea.addEventListener("click", () => {
+        loadSessionDetail(doc.id);
+      });
+    }
+
     historyList.appendChild(item);
   });
 }
@@ -334,6 +344,50 @@ async function saveSession(result) {
     loadHistory();
   } catch (e) {
     console.error("saveSession error", e);
+  }
+}
+
+// 履歴アイテムから過去の結果を読み込む
+async function loadSessionDetail(docId) {
+  if (!currentUser || !db) return;
+
+  try {
+    const snap = await db
+      .collection("users")
+      .doc(currentUser.uid)
+      .collection("sessions")
+      .doc(docId)
+      .get();
+
+    if (!snap.exists) return;
+
+    const data = snap.data();
+
+    if (topicInput) {
+      topicInput.value = data.topic || "";
+      autoResizeTextarea(topicInput);
+    }
+    if (passageInput) {
+      passageInput.value = data.passage || "";
+      autoResizeTextarea(passageInput);
+    }
+    if (answerInput) {
+      answerInput.value = data.answer || "";
+      answerInput.readOnly = true;
+      autoResizeTextarea(answerInput);
+    }
+
+    const result = {
+      totalScore: typeof data.score === "number" ? data.score : null,
+      totalComment: data.totalComment || "",
+      criteria: Array.isArray(data.criteria) ? data.criteria : [],
+      modelAnswer: data.modelAnswer || "",
+    };
+
+    renderResult(result, "");
+  } catch (e) {
+    console.error(e);
+    alert("履歴の読み込み中にエラーが発生しました。");
   }
 }
 
@@ -796,3 +850,14 @@ setTopicMode("manual");
 autoResizeTextarea(topicInput);
 autoResizeTextarea(passageInput);
 autoResizeTextarea(answerInput);
+
+// サイドバー開閉ボタン（PC向け）
+if (appRoot) {
+  appRoot.classList.remove("app--sidebar-expanded");
+}
+
+if (sidebarToggleButton && appRoot) {
+  sidebarToggleButton.addEventListener("click", () => {
+    appRoot.classList.toggle("app--sidebar-expanded");
+  });
+}
